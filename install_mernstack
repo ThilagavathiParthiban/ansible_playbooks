@@ -1,0 +1,48 @@
+#playbook.yml
+---
+- name: Install MERN stack
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install MongoDB
+      apt:
+        name: mongodb-server
+        state: present
+
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Install npm
+      apt:
+        name: npm
+        state: present
+
+    - name: Install React
+      npm:
+        name: react
+        global: yes
+
+    - name: Install Express
+      npm:
+        name: express
+        global: yes
+        
+        ansible-playbook -i hosts install-mern.yml
+
+#inventory.yml
+---
+  all:
+    hosts:
+      dev:
+        ansible_port: 22
+        ansible_host: 13.232.55.182
+        ansible_user: ubuntu
+      pro:
+        ansible_port: 22
+        ansible_host: 13.232.55.182
+        ansible_user: ubuntu
+        
