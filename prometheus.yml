@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Add Prometheus repository
+    apt_repository:
+      repo: 'deb https://prometheus.io/download/deb stable main'
+      state: present
+      update_cache: yes
+    tags:
+      - prometheus
+  - name: Install Prometheus
+    apt:
+      name: prometheus
+      state: latest
+    tags:
+      - prometheus
+  - name: Start Prometheus service
+    service:
+      name: prometheus
+      state: started
+      enabled: yes
+    tags:
+      - prometheus
