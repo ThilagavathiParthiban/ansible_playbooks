@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Apache web server
+    apt:
+      name: apache2
+      state: latest
+
+  - name: Install MySQL server
+    apt:
+      name: mysql-server
+      state: latest
+
+  - name: Install PHP
+    apt:
+      name: php
+      state: latest
+
+  - name: Enable Apache mod_php
+    apache2_module:
+      name: php
+      state: present
