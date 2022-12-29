@@ -46,3 +46,4 @@
         ansible_host: 13.232.55.182
         ansible_user: ubuntu
         
+ansible-playbook -i ./inventory.yml/playbook.yml
