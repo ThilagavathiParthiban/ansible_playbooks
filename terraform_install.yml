@@ -1,23 +1,14 @@
 ---
-- hosts: all
-  become: true
+- name: Install Terraform
+  hosts: all
+  become: yes
   tasks:
-  - name: Install unzip
-    apt:
-      name: unzip
-      state: present
-  - name: Download Terraform
-    get_url:
-      url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
-      dest: /tmp/terraform.zip
-  - name: Unzip Terraform
-    unarchive:
-      src: /tmp/terraform.zip
-      dest: /usr/local/bin/
-      remote_src: yes
-  - name: Set permissions
-    file:
-      path: /usr/local/bin/terraform
-      mode: 0755
-  - name: Test Terraform installation
-    shell: terraform -v
+    - name: Import Hashicorp GPG key
+      shell: wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+    - name: Add Hashicorp APT repository
+      shell: |
+        echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+
+    - name: Update APT cache and install Terraform
+      shell: apt update && apt install terraform
