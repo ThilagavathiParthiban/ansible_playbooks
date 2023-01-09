@@ -34,27 +34,3 @@
 
 
 
-# installing docker using focal stable
----
-- hosts: all
-  become: yes
-  tasks:
-  - name: Add Docker's GPG key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
-
-  - name: Add Docker's stable repository
-    apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-      state: present
-
-  - name: Install Docker CE
-    apt:
-      name: docker-ce
-      state: present
-
-  - name: Install Docker Compose
-    apt:
-      name: docker-compose
-      state: present
